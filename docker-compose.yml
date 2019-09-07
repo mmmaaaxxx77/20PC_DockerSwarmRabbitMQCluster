@@ -117,7 +117,6 @@ services:
 
 networks:
   consul:
-    external: true
   demo-net:
     external: true
 
