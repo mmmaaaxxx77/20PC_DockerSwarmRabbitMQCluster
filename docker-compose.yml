@@ -8,9 +8,6 @@ services:
       dockerfile: Dockerfile
     image: 10.140.15.238:5000/rabbitmq
     hostname: rabbitmq-01
-    ports:
-      - 5672:5672
-      - 15672:15672
     environment:
       - RABBITMQ_DEFAULT_USER=demo
       - RABBITMQ_DEFAULT_PASS=demo
