@@ -1,7 +1,5 @@
-version: "3.6"
-
+version: '3.6'
 services:
-
   consul:
     image: consul:1.4.0
     hostname: "{{.Node.Hostname}}"
@@ -19,11 +17,9 @@ services:
       placement:
         constraints: [node.labels.consul == true]
     command: [ "agent", "-server", "-bootstrap-expect=3", "-retry-max=3", "-retry-interval=10s", "-datacenter=prod", "-join=consul", "-retry-join=consul", "-bind={{ GetInterfaceIP \"eth0\" }}", "-client=0.0.0.0", "-ui"]
-
 networks:
   consul:
   prod:
     external: true
-
 volumes:
   consul-data:
