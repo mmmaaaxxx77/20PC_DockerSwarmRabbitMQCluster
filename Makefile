@@ -12,4 +12,4 @@ consul:
 	docker node update --label-add consul=true demo3
 
 rmq:
-    docker stack deploy -c docker-compose.yml rmq
+	docker stack deploy -c docker-compose.yml rmq
