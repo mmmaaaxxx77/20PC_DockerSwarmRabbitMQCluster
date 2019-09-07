@@ -98,9 +98,5 @@ services:
         constraints: [node.labels.rabbitmq1 == true]
 
 networks:
-  consul:
   demo-net:
     external: true
-
-volumes:
-  consul-data:
