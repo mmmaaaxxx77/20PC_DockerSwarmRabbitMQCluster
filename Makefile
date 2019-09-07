@@ -4,8 +4,8 @@ build:
 	docker-compose push
 
 run:
-	docker node update --label-rm consul demo2
-	docker node update --label-rm consul demo3
+	docker node update --label-rm consul demo2 || true
+	docker node update --label-rm consul demo3 || true
 	docker stack deploy -c docker-compose.yml rmq
 	sleep 30
 	docker node update --label-add consul=true demo2
