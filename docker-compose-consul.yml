@@ -1,0 +1,30 @@
+version: "3.2"
+
+services:
+
+  consul:
+    image: consul:1.6.0
+    hostname: "{{.Node.Hostname}}"
+    networks:
+      - consul
+      - demo-net
+    ports:
+      - 8400:8400
+      - 8500:8500
+      - 8600:53
+    volumes:
+      - consul-data:/consul/data
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.labels.consul == true]
+    command: [ "agent", "-server", "-bootstrap-expect=3", "-retry-max=3", "-retry-interval=10s", "-datacenter=demo-net", "-join=consul", "-retry-join=consul", "-bind={{ GetInterfaceIP \"eth0\" }}", "-client=0.0.0.0", "-ui"]
+
+networks:
+  consul:
+    external: true
+  demo-net:
+    external: true
+
+volumes:
+  consul-data:
