@@ -99,7 +99,7 @@ services:
 
   consul:
     image: consul:1.6.0
-    hostname: consul
+    hostname: "{{.Node.Hostname}}"
     networks:
       - consul
       - demo-net
