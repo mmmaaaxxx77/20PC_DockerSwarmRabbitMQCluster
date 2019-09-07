@@ -84,7 +84,7 @@ services:
     build:
       context: ./haproxy
       dockerfile: Dockerfile
-    image: 172.20.2.80:5000/rmq-haproxy
+    image: 10.140.15.238:5000/rmq-haproxy
     ports:
       - 15672:15672
       - 5672:5672
