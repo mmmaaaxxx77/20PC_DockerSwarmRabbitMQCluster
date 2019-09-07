@@ -1,0 +1,127 @@
+version: "3.2"
+
+services:
+
+  rabbitmq-01:
+    build:
+      context: ./rabitmq
+      dockerfile: Dockerfile
+    image: 10.140.15.238:5000/rabbitmq
+    hostname: rabbitmq-01
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=demo
+      - RABBITMQ_DEFAULT_PASS=demo
+      - RABBITMQ_ERLANG_COOKIE="MY-SECRET-KEY-123"
+      - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=0.8
+      - RABBITMQ_NODENAME=rabbitmq
+      - RABBITMQ_HIPE_COMPILE=1
+    networks:
+      - demo-net
+    logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.labels.rabbitmq1 == true
+
+  rabbitmq-02:
+    build:
+      context: ./rabitmq
+      dockerfile: Dockerfile
+    image: 10.140.15.238:5000/rabbitmq
+    hostname: rabbitmq-02
+    environment:
+      - RABBITMQ_DEFAULT_USER=demo
+      - RABBITMQ_DEFAULT_PASS=demo
+      - RABBITMQ_ERLANG_COOKIE="MY-SECRET-KEY-123"
+      - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=0.8
+      - RABBITMQ_NODENAME=rabbitmq
+      - RABBITMQ_HIPE_COMPILE=1
+    networks:
+      - demo-net
+    logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.labels.rabbitmq2 == true
+
+  rabbitmq-03:
+    build:
+      context: ./rabitmq
+      dockerfile: Dockerfile
+    image: 10.140.15.238:5000/rabbitmq
+    hostname: rabbitmq-03
+    environment:
+      - RABBITMQ_DEFAULT_USER=demo
+      - RABBITMQ_DEFAULT_PASS=demo
+      - RABBITMQ_ERLANG_COOKIE="MY-SECRET-KEY-123"
+      - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=0.8
+      - RABBITMQ_NODENAME=rabbitmq
+      - RABBITMQ_HIPE_COMPILE=1
+    networks:
+      - demo-net
+    logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.labels.rabbitmq3 == true
+
+  haproxy:
+    build:
+      context: ./haproxy
+      dockerfile: Dockerfile
+    image: 172.20.2.80:5000/rmq-haproxy
+    ports:
+      - 15672:15672
+      - 5672:5672
+      - 1936:1936
+    logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+    networks:
+      - demo-net
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.labels.rabbitmq1 == true]
+
+  consul:
+    image: consul:1.4.0
+    hostname: consul
+    networks:
+      - consul
+      - demo-net
+    ports:
+      - 8400:8400
+      - 8500:8500
+      - 8600:53
+    volumes:
+      - consul-data:/consul/data
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.labels.consul == true]
+    command: [ "agent", "-server", "-bootstrap-expect=3", "-retry-max=3", "-retry-interval=10s", "-datacenter=prod", "-join=consul", "-retry-join=consul", "-bind={{ GetInterfaceIP \"eth0\" }}", "-client=0.0.0.0", "-ui"]
+
+networks:
+  consul:
+  demo-net:
+    external: true
+
+volumes:
+  consul-data:
