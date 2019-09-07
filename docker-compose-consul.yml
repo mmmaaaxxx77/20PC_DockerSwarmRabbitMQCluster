@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.6"
 
 services:
 
@@ -22,7 +22,6 @@ services:
 
 networks:
   consul:
-    external: true
   prod:
     external: true
 
