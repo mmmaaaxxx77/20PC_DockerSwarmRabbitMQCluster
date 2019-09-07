@@ -3,12 +3,13 @@ build:
 	docker-compose build
 	docker-compose push
 
-run:
+run_consul:
 	docker node update --label-rm consul demo2 || true
 	docker node update --label-rm consul demo3 || true
 	docker stack deploy -c docker-compose-consul.yml consul
 	sleep 60
 	docker node update --label-add consul=true demo2
 	docker node update --label-add consul=true demo3
-	sleep 20
-	docker stack deploy -c docker-compose.yml rmq
+
+run_rmq:
+    docker stack deploy -c docker-compose.yml rmq
