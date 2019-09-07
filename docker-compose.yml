@@ -98,7 +98,7 @@ services:
         constraints: [node.labels.rabbitmq1 == true]
 
   consul:
-    image: consul:1.4.0
+    image: consul:1.6.0
     hostname: consul
     networks:
       - consul
@@ -117,6 +117,7 @@ services:
 
 networks:
   consul:
+    external: true
   demo-net:
     external: true
 
