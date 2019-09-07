@@ -7,7 +7,7 @@ services:
     hostname: "{{.Node.Hostname}}"
     networks:
       - consul
-      - demo-net
+      - prod
     ports:
       - 8400:8400
       - 8500:8500
@@ -18,12 +18,12 @@ services:
       mode: global
       placement:
         constraints: [node.labels.consul == true]
-    command: [ "agent", "-server", "-bootstrap-expect=3", "-retry-max=3", "-retry-interval=10s", "-datacenter=demo-net", "-join=consul", "-retry-join=consul", "-bind={{ GetInterfaceIP \"eth0\" }}", "-client=0.0.0.0", "-ui"]
+    command: [ "agent", "-server", "-bootstrap-expect=3", "-retry-max=3", "-retry-interval=10s", "-datacenter=prod", "-join=consul", "-retry-join=consul", "-bind={{ GetInterfaceIP \"eth0\" }}", "-client=0.0.0.0", "-ui"]
 
 networks:
   consul:
     external: true
-  demo-net:
+  prod:
     external: true
 
 volumes:
