@@ -9,7 +9,7 @@
 1. change docker `registry url` to yours in `docker-compose.yml`.
 2. change `rmq settings` to yours in `docker-compose.yml`.
 3. change `network setting` to yours in all `yml files`.
-3. change `rmq settings`, `docker node label settings` to yours in `Makefile`.
+3. change `node settings`, `rmq settings`, `docker node label settings` to yours in `Makefile` and `docker-compose.yml`.
 
 ## how to build docker image
 
