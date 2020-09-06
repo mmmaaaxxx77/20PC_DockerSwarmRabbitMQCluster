@@ -11,9 +11,9 @@ build:
 
 run:
 		@echo 'Now start to run  !!!'
-		docker node update --label-rm rabbitmq1 --label-rm consul --label-rm demo1 || true
-		docker node update --label-rm rabbitmq2 --label-rm consul --label-rm demo2 || true
-		docker node update --label-rm rabbitmq3 --label-rm consul --label-rm demo3 || true
+		docker node update --label-rm rabbitmq1 --label-rm consul --label-rm demo1 demo1 || true
+		docker node update --label-rm rabbitmq2 --label-rm consul --label-rm demo2 demo2 || true
+		docker node update --label-rm rabbitmq3 --label-rm consul --label-rm demo3 demo3 || true
 		docker node update --label-add rabbitmq1=true --label-add consul=true demo1 || true
 		docker node update --label-add rabbitmq2=true demo2 || true
 		docker node update --label-add rabbitmq3=true demo3 || true
